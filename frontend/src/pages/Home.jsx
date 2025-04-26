@@ -18,7 +18,7 @@ const Home = () => {
           return;
         }
 
-        const response = await axios.get("http://localhost:3000/auth/home", {
+        const response = await axios.get("https://complete-authentication-system-backend-2r3d.onrender.com/auth/home", {
           headers: {
             Authorization: `Bearer ${token}`,
           },
