@@ -6,7 +6,7 @@ const app = express();
 
 // CORS configuration
 app.use(cors({
-  origin: 'http://localhost:5173',
+  origin: 'https://complete-authentication-system-frotend.onrender.com',
   methods: ['GET', 'POST'],
   credentials: true
 }));
