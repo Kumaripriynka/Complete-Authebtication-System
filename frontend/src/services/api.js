@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-const API_URL = 'http://localhost:3000/auth';
+const API_URL = 'https://complete-authentication-system-backend-2r3d.onrender.com';
 
 // Create axios instance
 const api = axios.create({
