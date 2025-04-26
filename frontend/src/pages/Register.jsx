@@ -56,7 +56,7 @@ const Register = () => {
 
     try {
       const response = await axios.post(
-        'http://localhost:3000/auth/register',
+        'https://complete-authentication-system-backend-2r3d.onrender.com/auth/register',
         values
       );
       if (response.status === 201) {
