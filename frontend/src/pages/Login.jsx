@@ -47,13 +47,16 @@ const Login = () => {
         setLoading(true);
 
         try {
+            // Configure axios to include credentials (cookies)
             const response = await axios.post(
-                'https://complete-authentication-system-backend-2r3d.onrender.com/auth/login',
-                values
+                'http://localhost:3000/auth/login',
+                values,
+                { withCredentials: true }
             );
 
-            if (response.status === 201) {
-                localStorage.setItem('token', response.data.token);
+            if (response.status === 200) {
+                // Save the user info for local use if needed
+                localStorage.setItem('user', JSON.stringify(response.data.user));
                 toast.success("Login successful!");
                 setTimeout(() => navigate("/"), 1500);
             }
@@ -70,7 +73,7 @@ const Login = () => {
     return (
         <div className="flex items-center justify-center min-h-screen bg-gradient-to-br from-green-100 to-blue-100">
             <div className="w-full max-w-md bg-white shadow-2xl rounded-2xl p-8 border border-gray-200">
-                <h2 className="text-3xl font-bold text-center text-gray-800 mb-6">Welcome Back!</h2>
+                <h2 className="text-3xl font-bold text-center text-gray-800 mb-6">Welcome Back 👋</h2>
 
                 {error && (
                     <div className="mb-4 p-3 bg-red-100 text-red-700 border border-red-300 rounded-md">
