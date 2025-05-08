@@ -15,7 +15,7 @@ const transporter = nodemailer.createTransport({
 
 const sendResetPasswordEmail = async (email, resetToken) => {
   try {
-    const resetLink = `${process.env.FRONTEND_URL || 'http://localhost:5173'}/reset-password/${resetToken}`;
+    const resetLink = `${process.env.FRONTEND_URL || 'http://https://complete-authentication-system-frotend.onrender.com'}/reset-password/${resetToken}`;
     const supportEmail = process.env.SUPPORT_EMAIL || 'kartavyaplacement111@gmail.com';
 
     const mailOptions = {
