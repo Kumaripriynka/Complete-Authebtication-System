@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-const API_URL = 'https://complete-authentication-system-backend-2r3d.onrender.com/auth';
+const API_URL = 'http://localhost:3000/auth';
 
 // Create axios instance
 const api = axios.create({
@@ -11,13 +11,13 @@ const api = axios.create({
 });
 
 // Add token to requests that require authorization
-api.interceptors.request.use((config) => {
-  const token = localStorage.getItem('token');
-  if (token) {
-    config.headers.Authorization = `Bearer ${token}`;
-  }
-  return config;
-});
+// api.interceptors.request.use((config) => {
+//   const token = localStorage.getItem('token');
+//   if (token) {
+//     config.headers.Authorization = `Bearer ${token}`;
+//   }
+//   return config;
+// });
 
 // Auth services
 const authService = {
