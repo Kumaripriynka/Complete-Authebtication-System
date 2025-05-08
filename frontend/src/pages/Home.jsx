@@ -12,59 +12,56 @@ const Home = () => {
   useEffect(() => {
     const fetchUser = async () => {
       try {
-        // First try to get user from server (cookie-based auth)
-        const response = await axios.get("http://localhost:3000/auth/me", {
-          withCredentials: true
-        });
-  
-        if (response.status === 200) {
-          setUser(response.data.user);
-          localStorage.setItem("user", JSON.stringify(response.data.user));
-          return; // Exit if successful
-        }
-      } catch (err) {
-        // If server auth fails, check localStorage as fallback
-        const localUser = localStorage.getItem("user");
-        if (localUser) {
-          setUser(JSON.parse(localUser));
+        const token = localStorage.getItem("token");
+        if (!token) {
+          handleUnauthorized("Please login to continue");
           return;
         }
-        // If both fail, redirect to login
+
+        const response = await axios.get("http://localhost:3000/auth/home", {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        });
+
+        if (response.status === 200) {
+          setUser(response.data.user);
+        } else {
+          handleUnauthorized("Session expired. Please login again");
+        }
+      } catch (err) {
         handleUnauthorized("Authentication failed. Please login again");
       } finally {
         setIsLoading(false);
       }
     };
-  
-    fetchUser();
-  }, [navigate]);
 
-  const handleLogout = async () => {
-    try {
-      // Send request to the server to invalidate the cookie
-      await axios.post("http://localhost:3000/auth/logout", {}, {
-        withCredentials: true
-      });
-      
-      // Remove user from localStorage
-      localStorage.removeItem("user");
-      
-      toast.success("You've been successfully logged out", {
+    const handleUnauthorized = (msg) => {
+      toast.error(msg, {
         position: "top-center",
-        autoClose: 2000,
+        autoClose: 3000,
         hideProgressBar: true,
         onClose: () => {
-          setUser(null);
+          localStorage.removeItem("token");
           navigate("/login");
         }
       });
-    } catch (err) {
-      console.error("Logout error:", err);
-      // Even if server logout fails, clear local state
-      localStorage.removeItem("user");
-      setUser(null);
-      navigate("/login");
-    }
+    };
+
+    fetchUser();
+  }, [navigate]);
+
+  const handleLogout = () => {
+    localStorage.removeItem("token");
+    toast.success("You've been successfully logged out", {
+      position: "top-center",
+      autoClose: 2000,
+      hideProgressBar: true,
+      onClose: () => {
+        setUser(null);
+        navigate("/login");
+      }
+    });
   };
 
   const handleLoginRedirect = () => {
@@ -72,7 +69,7 @@ const Home = () => {
   };
 
   const handleSignupRedirect = () => {
-    navigate("/register");
+    navigate("/signup");
   };
 
   return (

@@ -47,16 +47,13 @@ const Login = () => {
         setLoading(true);
 
         try {
-            // Configure axios to include credentials (cookies)
             const response = await axios.post(
                 'http://localhost:3000/auth/login',
-                values,
-                { withCredentials: true }
+                values
             );
 
-            if (response.status === 200) {
-                // Save the user info for local use if needed
-                localStorage.setItem('user', JSON.stringify(response.data.user));
+            if (response.status === 201) {
+                localStorage.setItem('token', response.data.token);
                 toast.success("Login successful!");
                 setTimeout(() => navigate("/"), 1500);
             }
