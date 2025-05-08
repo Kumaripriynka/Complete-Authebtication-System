@@ -93,14 +93,14 @@ router.post('/login', async (req, res) => {
       { expiresIn: '3h' }
     );
     
-    // Set secure HTTP-only cookie
     res.cookie('token', token, {
       httpOnly: true,
       secure: process.env.NODE_ENV === 'production',
-      sameSite: 'strict',
-      maxAge: 3 * 60 * 60 * 1000 // 3 hours
+      sameSite: 'lax', // Changed from 'strict' to 'lax' for better compatibility
+      maxAge: 3 * 60 * 60 * 1000,
+      domain: 'localhost' // Add this if needed
     });
-
+  
     return res.status(200).json({ 
       message: "Login successful",
       user: { id: user.id, username: user.username, email: user.email }
